@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9408b7f28441a4ad687bce2967518d, type: 3}
   m_Name: InBrainSettings
   m_EditorClassIdentifier: 
-  clientId: 
-  clientSecretKey: 
+  clientId: 35c6e720-4f76-4d25-9e18-e718678e27ae
+  clientSecretKey: UnrB/pju7cH1dvTKL72blwZuhVrdsyZaS16qHOrjGdDVf2NWm+V7vmR8c3gMGnApmG/OUNkc1LLzgzO7K7T9DA==
   isS2S: 0

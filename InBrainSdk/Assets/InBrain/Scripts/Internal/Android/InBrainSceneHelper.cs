@@ -32,7 +32,7 @@ namespace InBrain
 			{
 				if (ReferenceEquals(_instance, null))
 				{
-					var instances = FindObjectsOfType<InBrainSceneHelper>();
+					var instances = FindObjectsByType<InBrainSceneHelper>(FindObjectsSortMode.None);
 
 					if (instances.Length > 1)
 					{
