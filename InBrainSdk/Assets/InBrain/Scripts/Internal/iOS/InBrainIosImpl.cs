@@ -89,14 +89,14 @@ namespace InBrain
 #endif
 		}
 
-		public void ShowSurveys()
+		public void ShowSurveys(InBrainWallOption wallOption)
 		{
 #if UNITY_IOS && !UNITY_EDITOR
 			_ib_ShowSurveys();
 #endif
 		}
 
-		public void ShowSurvey(string surveyId, string searchId)
+		public void ShowSurvey(string surveyId, string searchId, bool offersEnabled)
 		{
 #if UNITY_IOS && !UNITY_EDITOR
 			_ib_ShowSurvey(surveyId, searchId);

@@ -126,10 +126,11 @@ namespace InBrain
 
 		/// <summary>
 		/// Open surveys web view
+		/// <param name="wallOption">Specific survey identifier</param>
 		/// </summary>
-		public void ShowSurveys()
+		public void ShowSurveys(InBrainWallOption wallOption = InBrainWallOption.ALL)
 		{
-			InBrainImpl?.ShowSurveys();
+			InBrainImpl?.ShowSurveys(wallOption);
 		}
 
 		/// <summary>
@@ -146,9 +147,10 @@ namespace InBrain
 		/// </summary>
 		/// <param name="surveyId">Specific survey identifier</param>
 		/// <param name="searchId">Search identifier</param>
-		public void ShowSurvey(string surveyId, string searchId)
+		/// <param name="offersEnabled">Whether offers are enabled for the survey view.</param>
+		public void ShowSurvey(string surveyId, string searchId, bool offersEnabled = true)
 		{
-			InBrainImpl?.ShowSurvey(surveyId, searchId);
+			InBrainImpl?.ShowSurvey(surveyId, searchId, offersEnabled);
 		}
 
 		/// <summary>
