@@ -63,11 +63,19 @@ InBrain.Instance.CheckSurveysAvailability(flag =>
 
 ### Show surveys
 
-Present surveys web view with the following call:
+Present surveys web view (wall) with the following call:
 
 ```
 InBrain.Instance.ShowSurveys();
 ```
+
+Optionally specify wall option:
+
+```
+InBrain.Instance.ShowSurveys(InBrainWallOption wallOption);
+```
+
+Where `InBrainWallOption` is an enum with the following options: `ALL`, `OFFERS` and `SURVEYS`. By default, the value is set to `ALL`.
 
 ### Get rewards
 
@@ -140,6 +148,14 @@ Each recieved survey has its own `id` and `searchId` values that should be passe
 ```
 InBrain.Instance.ShowSurvey(surveyId, searchId);
 ```
+
+Optionally specify whether to enable offers:
+
+```
+InBrain.Instance.ShowSurvey(surveyId, searchId, bool offersEnabled);
+```
+
+By default, offersEnabled value is set to `true`.
 
 Alternatively one can fetch list of available surveys that metch certain criteria (i.e. survey category) by calling the `GetSurveysWithFilter` method instead.
 
