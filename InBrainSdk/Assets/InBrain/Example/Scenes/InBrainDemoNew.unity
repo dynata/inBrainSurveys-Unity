@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7260ba83ab3674f1583cb3fc0afaa906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appUserId: 
+  appUserId: testing-unity@inbrain.ai
   inBrainSurveysListPanel: {fileID: 1121197428}
   balanceText: {fileID: 498855631}
 --- !u!1 &63961095
