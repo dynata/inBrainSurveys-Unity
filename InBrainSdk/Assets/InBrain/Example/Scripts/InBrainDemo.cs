@@ -46,19 +46,19 @@ namespace InBrain
 		public void OnOpenWallClicked()
 		{
 			Debug.Log("InBrain: OpenWall (All) button clicked");
-			InBrain.Instance.ShowSurveys();
+			InBrain.Instance.OpenWall();
 		}
 
 		public void OnShowSurveysClicked()
 		{
 			Debug.Log("InBrain: OpenWall (Surveys) button clicked");
-			InBrain.Instance.ShowSurveys(InBrainWallOption.SURVEYS);
+			InBrain.Instance.OpenWall(InBrainWallOption.SURVEYS);
 		}
 
 		public void OnShowOffersClicked()
 		{
 			Debug.Log("InBrain: OpenWall (Offers) button clicked");
-			InBrain.Instance.ShowSurveys(InBrainWallOption.OFFERS);
+			InBrain.Instance.OpenWall(InBrainWallOption.OFFERS);
 		}
 
 		public void OnShowSurveysListClicked()

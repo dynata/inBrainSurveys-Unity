@@ -123,14 +123,23 @@ namespace InBrain
 		{
 			InBrainImpl?.CheckSurveysAvailability(onAvailabilityChecked);
 		}
+		
+		/// <summary>
+		/// Open surveys wall (legacy API)
+		/// </summary>
+		[Obsolete("This method is deprecated. Use `void OpenWall(InBrainWallOption wallOption)` method instead.")]
+		public void ShowSurveys()
+		{
+			InBrainImpl?.OpenWall(InBrainWallOption.ALL);
+		}
 
 		/// <summary>
-		/// Open surveys web view
-		/// <param name="wallOption">Specific survey identifier</param>
+		/// Open a specific wall
 		/// </summary>
-		public void ShowSurveys(InBrainWallOption wallOption = InBrainWallOption.ALL)
+		/// <param name="wallOption">Wall type to open</param>
+		public void OpenWall(InBrainWallOption wallOption = InBrainWallOption.ALL)
 		{
-			InBrainImpl?.ShowSurveys(wallOption);
+			InBrainImpl?.OpenWall(wallOption);
 		}
 
 		/// <summary>
@@ -147,10 +156,21 @@ namespace InBrain
 		/// </summary>
 		/// <param name="surveyId">Specific survey identifier</param>
 		/// <param name="searchId">Search identifier</param>
-		/// <param name="offersEnabled">Whether offers are enabled for the survey view.</param>
-		public void ShowSurvey(string surveyId, string searchId, bool offersEnabled = true)
+		[Obsolete("This method is deprecated. Use `OpenSurvey(string surveyId, string searchId, bool offersEnabled)` method instead.")]
+		public void ShowSurvey(string surveyId, string searchId)
 		{
-			InBrainImpl?.ShowSurvey(surveyId, searchId, offersEnabled);
+			OpenSurvey(surveyId, searchId, true);
+		}
+
+		/// <summary>
+		/// Open web view for specified survey with given search identifier
+		/// </summary>
+		/// <param name="surveyId">Specific survey identifier</param>
+		/// <param name="searchId">Search identifier</param>
+		/// <param name="offersEnabled">Whether offers are enabled for the survey view.</param>
+		public void OpenSurvey(string surveyId, string searchId, bool offersEnabled = true)
+		{
+			InBrainImpl?.OpenSurvey(surveyId, searchId, offersEnabled);
 		}
 
 		/// <summary>
