@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and `InBrainSurveys` adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0](https://github.com/inbrainai/unitysdk/releases/tag/v.3.0.0) - 2026-05-26
+
+### Added
+- **New Wall Function:**
+    - `InBrainWallOption` enum (`ALL`, `SURVEYS`, `OFFERS`)
+    - `OpenWall(InBrainWallOption wallOption = InBrainWallOption.ALL)` function to `InBrain`
+- **New Survey Function:**
+    - `OpenSurvey(string surveyId, string searchId, bool offersEnabled = true)` function to `InBrain`
+
+### Changed
+- Android native dependency updated to `com.github.inbrainai:sdk-android:3.1.0`.
+- iOS native framework updated to `InBrainSurveys 3.0.0`.
+- Demo scene and demo script updated to align with current SDK flow.
+
+### Deprecated
+- `ShowSurveys()` - use `OpenWall(InBrainWallOption wallOption = InBrainWallOption.ALL)` instead
+- `ShowSurvey(string surveyId, string searchId)` - use `OpenSurvey(string surveyId, string searchId, bool offersEnabled = true)` instead
+
+### Removed
+- Embedded Play Services Resolver binaries and bundled Android `.aar/.jar` artifacts in favor of EDM-based dependency resolution.
+
 ## [2.1.0](https://github.com/inbrainai/unitysdk/releases/tag/v.2.1.0) - 2023-10-20
 
 ### Added
