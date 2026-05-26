@@ -77,17 +77,21 @@ extern "C" {
         }];
     }
 
-    void _ib_ShowSurveys() {
+    void _ib_ShowSurveys(int wallOption) {
         inBrainView.surveyId = @"";
         inBrainView.searchId = @"";
+        
+        inBrainView.wallOption = (InBrainWallOption)wallOption;
+        
         [UnityGetGLViewController() presentViewController:inBrainView animated:NO completion:nil];
     }
 
-    void _ib_ShowSurvey(char* id, char* searchId) {
+    void _ib_ShowSurvey(char* id, char* searchId, bool offersEnabled) {
         NSString* surveyId = [InBrainUtils createNSStringFrom:id];
         NSString* srchId = [InBrainUtils createNSStringFrom:searchId];
         inBrainView.surveyId = surveyId;
         inBrainView.searchId = srchId;
+        inBrainView.offersEnabled = offersEnabled;
         [UnityGetGLViewController() presentViewController:inBrainView animated:NO completion:nil];
     }
 

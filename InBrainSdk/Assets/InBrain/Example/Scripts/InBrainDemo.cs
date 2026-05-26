@@ -43,10 +43,22 @@ namespace InBrain
 			});
 		}
 
+		public void OnOpenWallClicked()
+		{
+			Debug.Log("InBrain: OpenWall (All) button clicked");
+			InBrain.Instance.OpenWall();
+		}
+
 		public void OnShowSurveysClicked()
 		{
-			Debug.Log("InBrain: ShowSurveys button clicked");
-			InBrain.Instance.ShowSurveys();
+			Debug.Log("InBrain: OpenWall (Surveys) button clicked");
+			InBrain.Instance.OpenWall(InBrainWallOption.SURVEYS);
+		}
+
+		public void OnShowOffersClicked()
+		{
+			Debug.Log("InBrain: OpenWall (Offers) button clicked");
+			InBrain.Instance.OpenWall(InBrainWallOption.OFFERS);
 		}
 
 		public void OnShowSurveysListClicked()

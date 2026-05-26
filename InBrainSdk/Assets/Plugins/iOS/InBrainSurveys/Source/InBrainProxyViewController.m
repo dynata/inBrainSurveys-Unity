@@ -29,10 +29,10 @@ bool isOpened = false;
     
     if (!isOpened) {
         if([_surveyId length] == 0) {
-            [inBrain showSurveysFrom:self];
+            [inBrain openWallWith:_wallOption from:self];
         }
         else {
-            [inBrain showNativeSurveyWithId:_surveyId searchId:_searchId from:self];
+            [inBrain showNativeSurveyWithId:_surveyId searchId:_searchId offersEnabled:_offersEnabled from:self];
         }
         isOpened = true;
     }

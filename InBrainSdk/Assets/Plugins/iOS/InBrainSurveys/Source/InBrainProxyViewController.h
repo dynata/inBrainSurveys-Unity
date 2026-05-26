@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString* surveyId;
 @property(nonatomic, copy) NSString* searchId;
 
+@property(nonatomic, assign) InBrainWallOption wallOption;
+@property(nonatomic, assign) BOOL offersEnabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

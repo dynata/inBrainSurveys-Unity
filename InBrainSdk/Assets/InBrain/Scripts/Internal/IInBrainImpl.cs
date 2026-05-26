@@ -13,8 +13,8 @@ namespace InBrain
 		void AddCallback(Action<List<InBrainReward>> onRewardsReceived, Action<InBrainRewardsViewDismissedResult> onRewardsViewDismissed, bool confirmRewardsAutomatically = false);
 		void RemoveCallback();
 		void CheckSurveysAvailability(Action<bool> onAvailabilityChecked);
-		void ShowSurveys();
-		void ShowSurvey(string surveyId, string searchId);
+		void OpenWall(InBrainWallOption wallOption);
+		void OpenSurvey(string surveyId, string searchId, bool offersEnabled);
 		void GetRewards();
 		void GetRewards(Action<List<InBrainReward>> onRewardsReceived, Action onFailedToReceiveRewards, bool confirmRewardsAutomatically = false);
 		void ConfirmRewards(List<InBrainReward> rewards);

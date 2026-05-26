@@ -88,14 +88,14 @@ namespace InBrain
 			InBrainInst?.Call(Constants.CheckSurveysAvailabilityJavaMethod, JniUtils.Activity, new InBrainCheckSurveysAvailabilityCallbackProxy(onAvailabilityChecked));
 		}
 
-		public void ShowSurveys()
+		public void OpenWall(InBrainWallOption wallOption)
 		{
-			InBrainInst?.Call(Constants.ShowSurveysJavaMethod, JniUtils.Activity, new InBrainStartSurveysCallbackProxy());
+			InBrainInst?.Call(Constants.OpenSurveyWallJavaMethod, JniUtils.Activity, wallOption.ToAJO(), new InBrainStartSurveysCallbackProxy());
 		}
 
-		public void ShowSurvey(string surveyId, string searchId)
+		public void OpenSurvey(string surveyId, string searchId, bool offersEnabled)
 		{
-			InBrainInst?.Call(Constants.ShowSurveyJavaMethod, JniUtils.Activity, surveyId, searchId, new InBrainStartSurveysCallbackProxy());
+			InBrainInst?.Call(Constants.ShowSurveyJavaMethod, JniUtils.Activity, surveyId, searchId, offersEnabled, new InBrainStartSurveysCallbackProxy());
 		}
 
 		public void GetRewards()

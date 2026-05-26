@@ -89,17 +89,17 @@ namespace InBrain
 #endif
 		}
 
-		public void ShowSurveys()
+		public void OpenWall(InBrainWallOption wallOption)
 		{
 #if UNITY_IOS && !UNITY_EDITOR
-			_ib_ShowSurveys();
+			_ib_ShowSurveys((int)wallOption);
 #endif
 		}
 
-		public void ShowSurvey(string surveyId, string searchId)
+		public void OpenSurvey(string surveyId, string searchId, bool offersEnabled)
 		{
 #if UNITY_IOS && !UNITY_EDITOR
-			_ib_ShowSurvey(surveyId, searchId);
+			_ib_ShowSurvey(surveyId, searchId, offersEnabled);
 #endif
 		}
 
@@ -221,10 +221,10 @@ namespace InBrain
 		static extern void _ib_CheckSurveysAvailability(Callbacks.ActionBoolCallbackDelegate surveysAvailabilityCheckedCallback, IntPtr surveysAvailabilityCheckedActionPtr);
 
 		[DllImport("__Internal")]
-		static extern void _ib_ShowSurveys();
+		static extern void _ib_ShowSurveys(int wallOption);
 
 		[DllImport("__Internal")]
-		static extern void _ib_ShowSurvey(string id, string searchId);
+		static extern void _ib_ShowSurvey(string id, string searchId, bool offersEnabled);
 
 		[DllImport("__Internal")]
 		static extern void _ib_SetCallback(Callbacks.ActionStringCallbackDelegate rewardReceivedCallback, IntPtr rewardReceivedActionPtr,

@@ -14,6 +14,7 @@
 		public const string InBrainSurveyCategoryJavaClass = "com.inbrain.sdk.model.SurveyCategory";
 		public const string InBrainSurveyConversionLevelJavaClass = "com.inbrain.sdk.model.SurveyConversionLevel";
 		public const string InBrainSurveyOutcomeTypeJavaClass = "com.inbrain.sdk.model.SurveyOutcomeType";
+		public const string InBrainWallOptionClass = "com.inbrain.sdk.model.WallOption";
 
 		public const string GetInstanceJavaMethod = "getInstance";
 		public const string SetInBrainJavaMethod = "setInBrain";
@@ -23,7 +24,7 @@
 		public const string AddCallbackJavaMethod = "addCallback";
 		public const string RemoveCallbackJavaMethod = "removeCallback";
 		public const string CheckSurveysAvailabilityJavaMethod = "areSurveysAvailable";
-		public const string ShowSurveysJavaMethod = "showSurveys";
+		public const string OpenSurveyWallJavaMethod = "openWall";
 		public const string ShowSurveyJavaMethod = "showNativeSurveyWith";
 		public const string GetRewardsJavaMethod = "getRewards";
 		public const string ConfirmRewardsJavaMethod = "confirmRewards";
@@ -33,9 +34,12 @@
 		public const string FromIdJavaMethod = "fromId";
 		public const string FromLevelJavaMethod = "fromLevel";
 		public const string FromTypeJavaMethod = "fromType";
+		public const string FromRawJavaMethod = "fromRaw";
+		public const string GetRawJavaMethod = "getRaw";
 		public const string GetIdJavaMethod = "getId";
 		public const string GetLevelJavaMethod = "getLevel";
 		public const string GetTypeJavaMethod = "getType";
 		public const string GetCurrencySaleJavaMethod = "getCurrencySale";
+		public const string CompanionJavaField = "Companion";
 	}
 }
