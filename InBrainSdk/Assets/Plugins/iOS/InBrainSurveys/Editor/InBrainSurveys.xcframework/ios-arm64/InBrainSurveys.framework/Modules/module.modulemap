@@ -7,5 +7,4 @@ framework module InBrainSurveys {
 
 module InBrainSurveys.Swift {
   header "InBrainSurveys-Swift.h"
-  requires objc
 }

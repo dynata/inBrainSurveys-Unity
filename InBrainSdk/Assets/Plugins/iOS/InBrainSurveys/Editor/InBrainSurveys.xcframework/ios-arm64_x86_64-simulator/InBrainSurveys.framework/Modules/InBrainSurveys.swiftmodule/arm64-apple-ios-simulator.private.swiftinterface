@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InBrainSurveys
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -Onone -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InBrainSurveys
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
 import CommonCrypto
 import CryptoKit
 import DeveloperToolsSupport
@@ -35,30 +35,20 @@ import _SwiftConcurrencyShims
 @objc public protocol InBrainDelegate {
   @objc optional func didReceiveInBrainRewards(rewardsArray: [InBrainSurveys.InBrainReward])
   @objc optional func didFailToReceiveRewards(error: any Swift.Error)
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func surveysClosed(byWebView: Swift.Bool, completedSurvey: Swift.Bool, rewards: [InBrainSurveys.InBrainSurveyReward]?)
-  #endif
   @available(*, unavailable, renamed: "surveysClosed(byWebView:completedSurvey:rewards:)")
   @objc optional func surveysClosed(byWebView: Swift.Bool, completedSurvey: Swift.Bool)
 }
 @objc public protocol NativeSurveyDelegate {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func nativeSurveysLoadingStarted(filter: InBrainSurveys.InBrainSurveyFilter?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func nativeSurveysReceived(_ surveys: [InBrainSurveys.InBrainNativeSurvey], filter: InBrainSurveys.InBrainSurveyFilter?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc func failedToReceiveNativeSurveys(error: any Swift.Error, filter: InBrainSurveys.InBrainSurveyFilter?)
-  #endif
 }
 @objc public enum InBrainWallOption : Swift.Int {
   case all
   case surveys
   case offers
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -72,88 +62,46 @@ import _SwiftConcurrencyShims
     @objc get
   }
   @objc final public func setInBrain(apiClientID: Swift.String, apiSecret: Swift.String, isS2S: Swift.Bool)
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func set(userID: Swift.String?)
-  #endif
   final public func setNavigationBarTitle(_ title: Swift.String)
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc final public func setNavigationBarTitle(_ title: Swift.String?)
-  #endif
   @objc final public func setNavigationBarConfig(_ config: InBrainSurveys.InBrainNavBarConfig)
   @objc final public func setStatusBarConfig(_ config: InBrainSurveys.InBrainStatusBarConfig)
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func setSessionID(_ sessionID: Swift.String?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func setDataOptions(_ dataOptions: [[Swift.String : Any]]?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func checkForAvailableSurveys(completion: @escaping (_ hasSurveys: Swift.Bool, _ error: (any Swift.Error)?) -> Swift.Void)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func openWall(with option: InBrainSurveys.InBrainWallOption = .surveys, from viewController: UIKit.UIViewController? = nil)
-  #endif
   @objc final public func getRewards(success: @escaping ([InBrainSurveys.InBrainReward]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @objc final public func getRewards()
   @objc final public func confirmRewards(txIdArray: [Swift.Int])
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func getCurrencySale(success: @escaping (InBrainSurveys.InBrainCurrencySale?) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeSurvey]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func openSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func openSurveyWith(id surveyId: Swift.String, searchId: Swift.String, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc final public func getNativeOffers(filter: InBrainSurveys.InBrainOfferFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeOffer]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
-  #endif
   @objc final public func openOfferWith(id: Swift.Int, success: @escaping () -> (), failed: @escaping InBrainSurveys.ErrorCallback)
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, deprecated, message: "Please, use setInBrain(apiClientID:apiSecret:isS2S:) followed by set(userID:)")
   @objc final public func setInBrain(apiClientID: Swift.String, apiSecret: Swift.String, isS2S: Swift.Bool, userID: Swift.String?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, deprecated, message: "Please, use openSurvey(survey:offersEnabled:from:)")
   @objc final public func showNativeSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, deprecated, message: "Please, use openSurvey(id:searchId:offersEnabled:from:)")
   @objc final public func showNativeSurveyWith(id surveyId: Swift.String, searchId: Swift.String, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use openWall(with:)")
   @objc final public func showSurveys(from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use showNativeSurvey(survey:offersEnabled:from:)")
   @objc final public func showNativeSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, from viewController: UIKit.UIViewController? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use showNativeSurveyWith(id:searchId:offersEnabled:from:)")
   @objc final public func showNativeSurveyWith(id surveyId: Swift.String, searchId: Swift.String, from viewController: UIKit.UIViewController? = nil)
-  #endif
   @available(*, unavailable, message: "The function is not supported anymore")
   @objc final public func setLanguage(_ language: Swift.String) throws
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use setSessionID(_:) and setDataOptions(_:)")
   @objc final public func setInBrainValuesFor(sessionID: Swift.String?, dataOptions: [[Swift.String : Any]]?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use getNativeSurveys(filter:)")
   @objc final public func getNativeSurveys(placementId: Swift.String? = nil)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(*, unavailable, message: "Please, use getNativeSurveys(filter:success:failed:)")
   @objc final public func getNativeSurveys(placementID: Swift.String? = nil, success: @escaping ([InBrainSurveys.InBrainNativeSurvey]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
-  #endif
   @objc deinit
 }
 @objc public class InBrainNativeOffer : ObjectiveC.NSObject, Swift.Decodable {
@@ -211,9 +159,7 @@ import _SwiftConcurrencyShims
   public var title: Swift.String {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -225,21 +171,17 @@ extension InBrainSurveys.InBrainSurveyCategory : Swift.CustomStringConvertible {
   }
 }
 @objc public class InBrainNavBarConfig : ObjectiveC.NSObject {
-  #if compiler(>=5.3) && $NonescapableTypes
   @objc public init(backgroundColor: UIKit.UIColor? = nil, buttonsColor: UIKit.UIColor? = nil, titleColor: UIKit.UIColor? = nil, isTranslucent: Swift.Bool = false, hasShadow: Swift.Bool = false)
-  #endif
   @objc deinit
 }
 @objc public class InBrainNativeSurvey : ObjectiveC.NSObject, Swift.Decodable {
   @objc final public let id: Swift.String
   @objc final public let searchId: Swift.String
   final public let categories: [InBrainSurveys.InBrainSurveyCategory]?
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc public var categoryIds: [Swift.Int]? {
     @objc get
   }
-  #endif
   @objc final public let rank: Swift.Int
   @objc final public let time: Swift.Int
   @objc final public let value: Swift.Double
@@ -261,28 +203,20 @@ extension InBrainSurveys.InBrainSurveyCategory : Swift.CustomStringConvertible {
   @objc final public let placementId: Swift.String?
   final public let categories: Swift.Set<InBrainSurveys.InBrainSurveyCategory>?
   final public let excludedCategories: Swift.Set<InBrainSurveys.InBrainSurveyCategory>?
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc final public var categoryIds: [Swift.Int]? {
     @objc get
   }
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc final public var excludedCategoryIds: [Swift.Int]? {
     @objc get
   }
-  #endif
   @objc override final public var description: Swift.String {
     @objc get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc convenience public init?(placementId: Swift.String?, categoryIDs: [Swift.Int]?, excludedCategoryIDs: [Swift.Int]?)
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(placementId: Swift.String?, categories: [InBrainSurveys.InBrainSurveyCategory]?, excludedCategories: [InBrainSurveys.InBrainSurveyCategory]?)
-  #endif
   @objc deinit
 }
 public enum InBrainError : Swift.Error, Foundation.LocalizedError, Foundation.CustomNSError {
@@ -306,11 +240,9 @@ public enum InBrainError : Swift.Error, Foundation.LocalizedError, Foundation.Cu
   public var errorCode: Swift.Int {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public var errorDescription: Swift.String? {
     get
   }
-  #endif
 }
 @objc final public class InBrainCurrencySale : ObjectiveC.NSObject, Swift.Decodable {
   @objc final public let title: Swift.String
@@ -343,9 +275,7 @@ public enum InBrainError : Swift.Error, Foundation.LocalizedError, Foundation.Cu
   case goodConversion
   case veryGoodConversion
   case excellentConversion
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -359,9 +289,7 @@ extension InBrainSurveys.SurveyConversionLevel : Swift.CustomStringConvertible {
 @objc public enum SurveyOutcomeType : Swift.Int, Swift.Decodable {
   case completed = 0
   case terminated
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
@@ -376,12 +304,10 @@ extension InBrainSurveys.SurveyOutcomeType : Swift.CustomStringConvertible {
   @objc final public let surveyId: Swift.String
   @objc final public let placementId: Swift.String?
   final public let categories: [InBrainSurveys.InBrainSurveyCategory]?
-  #if compiler(>=5.3) && $NonescapableTypes
   @available(swift, obsoleted: 0.1)
   @objc final public var categoryIds: [Swift.Int]? {
     @objc get
   }
-  #endif
   @objc final public let userReward: Swift.Double
   @objc final public let outcomeType: InBrainSurveys.SurveyOutcomeType
   @objc override final public var description: Swift.String {
@@ -398,9 +324,7 @@ extension InBrainSurveys.SurveyOutcomeType : Swift.CustomStringConvertible {
   case goodMatch
   case greatMatch
   case excellentMatch
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   @available(*, unavailable, message: "Unavailable")
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
@@ -434,11 +358,9 @@ public enum ApiError : Swift.Error, Foundation.LocalizedError, Foundation.Custom
   public var errorCode: Swift.Int {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public var errorDescription: Swift.String? {
     get
   }
-  #endif
 }
 @objc public class InBrainOfferPromotion : ObjectiveC.NSObject, Swift.Decodable {
   @objc final public let multiplier: Swift.Double
@@ -455,9 +377,7 @@ public typealias ErrorCallback = (any Swift.Error) -> ()
   case `default`
   case featured
   case started
-  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
-  #endif
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get

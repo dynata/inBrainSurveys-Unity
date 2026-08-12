@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and `InBrainSurveys` adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1](https://github.com/inbrainai/unitysdk/releases/tag/v.3.0.1) - 2026-08-12
+
+### Changed
+- Android native dependency updated to `com.github.inbrainai:sdk-android:3.1.2`.
+- iOS native dependency updated to `InBrainSurveys 3.0.2` and shipped as `InBrainSurveys.xcframework` (replacing the device-only `.framework`).
+
+### Fixed
+- Error `missing session`
+- White screen after `Forfeit reward` 
+
 ## [3.0.0](https://github.com/inbrainai/unitysdk/releases/tag/v.3.0.0) - 2026-05-26
 
 ### Added

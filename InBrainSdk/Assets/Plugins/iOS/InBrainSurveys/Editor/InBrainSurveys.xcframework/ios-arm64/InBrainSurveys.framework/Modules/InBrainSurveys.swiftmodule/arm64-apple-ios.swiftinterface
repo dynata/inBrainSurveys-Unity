@@ -1,0 +1,417 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InBrainSurveys
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
+import CommonCrypto
+import CryptoKit
+import DeveloperToolsSupport
+import Foundation
+@_exported import InBrainSurveys
+import Swift
+import SwiftUI
+import SystemConfiguration
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc public class InBrainOfferGoal : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let id: Swift.Int
+  @objc final public let title: Swift.String
+  @objc final public let goalDescription: Swift.String
+  @objc final public let reward: Swift.Double
+  @objc final public let rewardString: Swift.String
+  @objc final public let isCompleted: Swift.Bool
+  @objc final public let sortOrder: Swift.Int
+  @objc final public let attributionWindowMinutes: Swift.Int
+  @objc final public let completeBy: Foundation.Date?
+  @objc final public let promotion: InBrainSurveys.InBrainOfferPromotion?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@objc public protocol InBrainDelegate {
+  @objc optional func didReceiveInBrainRewards(rewardsArray: [InBrainSurveys.InBrainReward])
+  @objc optional func didFailToReceiveRewards(error: any Swift.Error)
+  @objc optional func surveysClosed(byWebView: Swift.Bool, completedSurvey: Swift.Bool, rewards: [InBrainSurveys.InBrainSurveyReward]?)
+  @available(*, unavailable, renamed: "surveysClosed(byWebView:completedSurvey:rewards:)")
+  @objc optional func surveysClosed(byWebView: Swift.Bool, completedSurvey: Swift.Bool)
+}
+@objc public protocol NativeSurveyDelegate {
+  @objc func nativeSurveysLoadingStarted(filter: InBrainSurveys.InBrainSurveyFilter?)
+  @objc func nativeSurveysReceived(_ surveys: [InBrainSurveys.InBrainNativeSurvey], filter: InBrainSurveys.InBrainSurveyFilter?)
+  @objc func failedToReceiveNativeSurveys(error: any Swift.Error, filter: InBrainSurveys.InBrainSurveyFilter?)
+}
+@objc public enum InBrainWallOption : Swift.Int {
+  case all
+  case surveys
+  case offers
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class InBrain : ObjectiveC.NSObject {
+  @objc public static let shared: InBrainSurveys.InBrain
+  @objc weak final public var inBrainDelegate: (any InBrainSurveys.InBrainDelegate)?
+  @objc weak final public var nativeSurveysDelegate: (any InBrainSurveys.NativeSurveyDelegate)?
+  @objc final public var isOnScreen: Swift.Bool {
+    @objc get
+  }
+  @objc final public func setInBrain(apiClientID: Swift.String, apiSecret: Swift.String, isS2S: Swift.Bool)
+  @objc final public func set(userID: Swift.String?)
+  final public func setNavigationBarTitle(_ title: Swift.String)
+  @available(swift, obsoleted: 0.1)
+  @objc final public func setNavigationBarTitle(_ title: Swift.String?)
+  @objc final public func setNavigationBarConfig(_ config: InBrainSurveys.InBrainNavBarConfig)
+  @objc final public func setStatusBarConfig(_ config: InBrainSurveys.InBrainStatusBarConfig)
+  @objc final public func setSessionID(_ sessionID: Swift.String?)
+  @objc final public func setDataOptions(_ dataOptions: [[Swift.String : Any]]?)
+  @objc final public func checkForAvailableSurveys(completion: @escaping (_ hasSurveys: Swift.Bool, _ error: (any Swift.Error)?) -> Swift.Void)
+  @objc final public func openWall(with option: InBrainSurveys.InBrainWallOption = .surveys, from viewController: UIKit.UIViewController? = nil)
+  @objc final public func getRewards(success: @escaping ([InBrainSurveys.InBrainReward]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc final public func getRewards()
+  @objc final public func confirmRewards(txIdArray: [Swift.Int])
+  @objc final public func getCurrencySale(success: @escaping (InBrainSurveys.InBrainCurrencySale?) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil)
+  @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeSurvey]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc final public func openSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
+  @objc final public func openSurveyWith(id surveyId: Swift.String, searchId: Swift.String, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
+  @objc final public func getNativeOffers(filter: InBrainSurveys.InBrainOfferFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeOffer]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc final public func openOfferWith(id: Swift.Int, success: @escaping () -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @available(*, deprecated, message: "Please, use setInBrain(apiClientID:apiSecret:isS2S:) followed by set(userID:)")
+  @objc final public func setInBrain(apiClientID: Swift.String, apiSecret: Swift.String, isS2S: Swift.Bool, userID: Swift.String?)
+  @available(*, deprecated, message: "Please, use openSurvey(survey:offersEnabled:from:)")
+  @objc final public func showNativeSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
+  @available(*, deprecated, message: "Please, use openSurvey(id:searchId:offersEnabled:from:)")
+  @objc final public func showNativeSurveyWith(id surveyId: Swift.String, searchId: Swift.String, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
+  @available(*, unavailable, message: "Please, use openWall(with:)")
+  @objc final public func showSurveys(from viewController: UIKit.UIViewController? = nil)
+  @available(*, unavailable, message: "Please, use showNativeSurvey(survey:offersEnabled:from:)")
+  @objc final public func showNativeSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, from viewController: UIKit.UIViewController? = nil)
+  @available(*, unavailable, message: "Please, use showNativeSurveyWith(id:searchId:offersEnabled:from:)")
+  @objc final public func showNativeSurveyWith(id surveyId: Swift.String, searchId: Swift.String, from viewController: UIKit.UIViewController? = nil)
+  @available(*, unavailable, message: "The function is not supported anymore")
+  @objc final public func setLanguage(_ language: Swift.String) throws
+  @available(*, unavailable, message: "Please, use setSessionID(_:) and setDataOptions(_:)")
+  @objc final public func setInBrainValuesFor(sessionID: Swift.String?, dataOptions: [[Swift.String : Any]]?)
+  @available(*, unavailable, message: "Please, use getNativeSurveys(filter:)")
+  @objc final public func getNativeSurveys(placementId: Swift.String? = nil)
+  @available(*, unavailable, message: "Please, use getNativeSurveys(filter:success:failed:)")
+  @objc final public func getNativeSurveys(placementID: Swift.String? = nil, success: @escaping ([InBrainSurveys.InBrainNativeSurvey]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc deinit
+}
+@objc public class InBrainNativeOffer : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let id: Swift.Int
+  @objc final public let title: Swift.String
+  @objc final public let reward: Swift.Double
+  @objc final public let rewardString: Swift.String
+  @objc final public let featuredRank: Swift.Int
+  @objc final public let thumbnailUrl: Swift.String?
+  @objc final public let heroImageUrl: Swift.String?
+  @objc final public let offerDescription: [Swift.String]?
+  @objc final public let categories: [Swift.String]?
+  @objc final public let promotion: InBrainSurveys.InBrainOfferPromotion?
+  @objc final public let standardGoals: [InBrainSurveys.InBrainOfferGoal]?
+  @objc final public let purchaseGoals: [InBrainSurveys.InBrainOfferGoal]?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@objc public enum InBrainSurveyCategory : Swift.Int {
+  case automotive = 1
+  case beveragesAlcoholic
+  case beveragesNonAlcoholic
+  case business
+  case childrenAndParenting = 5
+  case coalitionLoyaltyPrograms
+  case destinationsAndTourism
+  case education
+  case electronicsComputerSoftware
+  case entertainmentAndLeisure = 10
+  case financeBankingInvestingAndInsurance
+  case food
+  case gamblingLottery
+  case governmentAndPolitics
+  case healthCare = 15
+  case home
+  case mediaAndPublishing
+  case personalCare
+  case restaurants
+  case sensitiveExplicitContent = 20
+  case smokingTobacco
+  case socialResearch
+  case sportsRecreationFitness
+  case telecommunications
+  case transportation = 25
+  case travelAirlines
+  case travelHotels
+  case travelServicesAgencyBooking
+  case creditCards
+  case videoGames = 30
+  case fashionAndClothingOther
+  case fashionAndClothingDepartmentStore
+  public var title: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension InBrainSurveys.InBrainSurveyCategory : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@objc public class InBrainNavBarConfig : ObjectiveC.NSObject {
+  @objc public init(backgroundColor: UIKit.UIColor? = nil, buttonsColor: UIKit.UIColor? = nil, titleColor: UIKit.UIColor? = nil, isTranslucent: Swift.Bool = false, hasShadow: Swift.Bool = false)
+  @objc deinit
+}
+@objc public class InBrainNativeSurvey : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let id: Swift.String
+  @objc final public let searchId: Swift.String
+  final public let categories: [InBrainSurveys.InBrainSurveyCategory]?
+  @available(swift, obsoleted: 0.1)
+  @objc public var categoryIds: [Swift.Int]? {
+    @objc get
+  }
+  @objc final public let rank: Swift.Int
+  @objc final public let time: Swift.Int
+  @objc final public let value: Swift.Double
+  @objc final public let conversionLevel: InBrainSurveys.SurveyConversionLevel
+  @objc final public let currencySale: Swift.Bool
+  @objc final public let multiplier: Swift.Double
+  @objc final public let isProfilerSurvey: Swift.Bool
+  @available(*, unavailable, message: "Parameter is unavailable")
+  @objc public var profileMatch: InBrainSurveys.SurveyProfileMatch {
+    @objc get
+  }
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@objc final public class InBrainSurveyFilter : ObjectiveC.NSObject {
+  @objc final public let placementId: Swift.String?
+  final public let categories: Swift.Set<InBrainSurveys.InBrainSurveyCategory>?
+  final public let excludedCategories: Swift.Set<InBrainSurveys.InBrainSurveyCategory>?
+  @available(swift, obsoleted: 0.1)
+  @objc final public var categoryIds: [Swift.Int]? {
+    @objc get
+  }
+  @available(swift, obsoleted: 0.1)
+  @objc final public var excludedCategoryIds: [Swift.Int]? {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @available(swift, obsoleted: 0.1)
+  @objc convenience public init?(placementId: Swift.String?, categoryIDs: [Swift.Int]?, excludedCategoryIDs: [Swift.Int]?)
+  public init?(placementId: Swift.String?, categories: [InBrainSurveys.InBrainSurveyCategory]?, excludedCategories: [InBrainSurveys.InBrainSurveyCategory]?)
+  @objc deinit
+}
+public enum InBrainError : Swift.Error, Foundation.LocalizedError, Foundation.CustomNSError {
+  case noCredentials
+  case noUserOrUUID
+  case invalidLink
+  case invalidLanguage
+  case invalidClient
+  case invalidIssuer(desription: Swift.String)
+  case invalidPlacement
+  case unauthorized
+  case expiredToken
+  case userBanned
+  case geoBlockedIP
+  case accessLimited(reason: Swift.String)
+  case serverError(description: Swift.String, code: Swift.Int, url: Swift.String)
+  case categoryIntersection
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+@objc final public class InBrainCurrencySale : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let title: Swift.String
+  @objc final public let multiplier: Swift.Double
+  @objc final public let startOn: Foundation.Date
+  @objc final public let endOn: Foundation.Date
+  @available(*, unavailable, renamed: "startOn")
+  @objc final public var start: Foundation.Date {
+    @objc get
+  }
+  @available(*, unavailable, renamed: "endOn")
+  @objc final public var end: Foundation.Date {
+    @objc get
+  }
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@objc public class InBrainStatusBarConfig : ObjectiveC.NSObject {
+  @objc public init(statusBarStyle: UIKit.UIStatusBarStyle, hideStatusBar: Swift.Bool)
+  @objc deinit
+}
+@objc public enum SurveyConversionLevel : Swift.Int, Swift.Decodable {
+  case newSurvey = 0
+  case veryPoorConversion
+  case poorConversion
+  case fairConversion
+  case goodConversion
+  case veryGoodConversion
+  case excellentConversion
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension InBrainSurveys.SurveyConversionLevel : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@objc public enum SurveyOutcomeType : Swift.Int, Swift.Decodable {
+  case completed = 0
+  case terminated
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension InBrainSurveys.SurveyOutcomeType : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@objc final public class InBrainSurveyReward : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let surveyId: Swift.String
+  @objc final public let placementId: Swift.String?
+  final public let categories: [InBrainSurveys.InBrainSurveyCategory]?
+  @available(swift, obsoleted: 0.1)
+  @objc final public var categoryIds: [Swift.Int]? {
+    @objc get
+  }
+  @objc final public let userReward: Swift.Double
+  @objc final public let outcomeType: InBrainSurveys.SurveyOutcomeType
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@available(*, unavailable, message: "Unavailable")
+@objc public enum SurveyProfileMatch : Swift.Int {
+  case newSurvey = 0
+  case poorMatch
+  case fairMatch
+  case goodMatch
+  case greatMatch
+  case excellentMatch
+  public init?(rawValue: Swift.Int)
+  @available(*, unavailable, message: "Unavailable")
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc final public class InBrainReward : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let transactionId: Swift.Int
+  @objc final public let amount: Swift.Float
+  @objc final public let currency: Swift.String
+  @objc final public let transactionType: Swift.Int
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public enum ApiError : Swift.Error, Foundation.LocalizedError, Foundation.CustomNSError {
+  case serviceDestroyed
+  case cantOpenUrl(link: Swift.String)
+  case urlCreationFailed(link: Swift.String)
+  case encodingFailed(reason: Swift.String)
+  case notFound
+  case invalidResponse
+  case noDataReceived
+  case serializationError(error: any Swift.Error)
+  case unknownError(description: Swift.String, code: Swift.Int, url: Swift.String)
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+@objc public class InBrainOfferPromotion : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let multiplier: Swift.Double
+  @objc final public let originalReward: Swift.Double
+  @objc final public let originalRewardString: Swift.String
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public typealias ErrorCallback = (any Swift.Error) -> ()
+@objc public enum InBrainOfferType : Swift.Int {
+  case `default`
+  case featured
+  case started
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc final public class InBrainOfferFilter : ObjectiveC.NSObject {
+  @objc final public let type: InBrainSurveys.InBrainOfferType
+  @objc final public let limit: Swift.Int
+  @objc final public let offset: Swift.Int
+  @objc override final public var description: Swift.String {
+    @objc get
+  }
+  @objc public init(type: InBrainSurveys.InBrainOfferType, limit: Swift.Int = 10, offset: Swift.Int = 0)
+  @objc convenience public init(type: InBrainSurveys.InBrainOfferType)
+  @objc deinit
+}
+extension InBrainSurveys.InBrainWallOption : Swift.Equatable {}
+extension InBrainSurveys.InBrainWallOption : Swift.Hashable {}
+extension InBrainSurveys.InBrainWallOption : Swift.RawRepresentable {}
+extension InBrainSurveys.InBrainSurveyCategory : Swift.Equatable {}
+extension InBrainSurveys.InBrainSurveyCategory : Swift.Hashable {}
+extension InBrainSurveys.InBrainSurveyCategory : Swift.RawRepresentable {}
+extension InBrainSurveys.SurveyConversionLevel : Swift.Equatable {}
+extension InBrainSurveys.SurveyConversionLevel : Swift.Hashable {}
+extension InBrainSurveys.SurveyConversionLevel : Swift.RawRepresentable {}
+extension InBrainSurveys.SurveyOutcomeType : Swift.Equatable {}
+extension InBrainSurveys.SurveyOutcomeType : Swift.Hashable {}
+extension InBrainSurveys.SurveyOutcomeType : Swift.RawRepresentable {}
+@available(*, unavailable, message: "Unavailable")
+extension InBrainSurveys.SurveyProfileMatch : Swift.Equatable {}
+@available(*, unavailable, message: "Unavailable")
+extension InBrainSurveys.SurveyProfileMatch : Swift.Hashable {}
+@available(*, unavailable, message: "Unavailable")
+extension InBrainSurveys.SurveyProfileMatch : Swift.RawRepresentable {}
+extension InBrainSurveys.InBrainOfferType : Swift.Equatable {}
+extension InBrainSurveys.InBrainOfferType : Swift.Hashable {}
+extension InBrainSurveys.InBrainOfferType : Swift.RawRepresentable {}
