@@ -201,6 +201,35 @@ namespace InBrain
 #endif
 		}
 
+		public void GetNativeOffers(InBrainOfferFilter filter, Action<List<InBrainNativeOffer>> onOffersReceived)
+		{
+			var filterJson = filter != null ? JsonUtility.ToJson(filter) : null;
+
+			Action<string> onOffersReceivedNative = offersJson =>
+			{
+				var offersResult = JsonUtility.FromJson<InBrainGetNativeOffersResult>(offersJson);
+				onOffersReceived?.Invoke(offersResult.offers);
+			};
+
+			Action onFailedToReceiveOffers = () =>
+			{
+				Debug.Log("Failed to receive native offers list");
+				onOffersReceived?.Invoke(new List<InBrainNativeOffer>());
+			};
+
+#if UNITY_IOS && !UNITY_EDITOR
+			_ib_GetNativeOffersWithFilterAndCallback(filterJson, Callbacks.ActionStringCallback, onOffersReceivedNative.GetPointer(),
+				Callbacks.ActionVoidCallback, onFailedToReceiveOffers.GetPointer());
+#endif
+		}
+
+		public void OpenOffer(int offerId)
+		{
+#if UNITY_IOS && !UNITY_EDITOR
+			_ib_OpenOffer(offerId);
+#endif
+		}
+
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport("__Internal")]
 		static extern void _ib_SetInBrain(string clientId, string secret, bool isS2S);
@@ -256,6 +285,13 @@ namespace InBrain
 		[DllImport("__Internal")]
 		static extern void _ib_GetCurrencySale(Callbacks.ActionStringCallbackDelegate currencySaleReceivedCallback, IntPtr currencySaleReceivedActionPtr,
 			Callbacks.ActionVoidCallbackDelegate failedToReceiveCurrencySaleCallback, IntPtr failedToReceiveCurrencySaleActionPtr);
+
+		[DllImport("__Internal")]
+		static extern void _ib_GetNativeOffersWithFilterAndCallback(string filterJson, Callbacks.ActionStringCallbackDelegate offersReceivedCallback, IntPtr offersReceivedActionPtr,
+			Callbacks.ActionVoidCallbackDelegate failedToReceiveOffersCallback, IntPtr failedToReceiveOffersActionPtr);
+
+		[DllImport("__Internal")]
+		static extern void _ib_OpenOffer(int offerId);
 #endif
 	}
 }

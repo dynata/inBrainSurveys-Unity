@@ -575,10 +575,20 @@ SWIFT_CLASS("_TtC14InBrainSurveys18InBrainNativeOffer")
 @property (nonatomic, readonly, copy) NSString * _Nullable thumbnailUrl;
 @property (nonatomic, readonly, copy) NSString * _Nullable heroImageUrl;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable offerDescription;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable instructions;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable requirements;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable tags;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable categories;
 @property (nonatomic, readonly, strong) InBrainOfferPromotion * _Nullable promotion;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable standardGoals;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable purchaseGoals;
+/// The attribution window in minutes for not started offers. Always <code>-1</code> for started offers.
+@property (nonatomic, readonly) NSInteger attributionWindowMinutes;
+/// When the user started this offer. Always <code>nil</code> for not started offers.
+@property (nonatomic, readonly, copy) NSDate * _Nullable attemptedAt;
+/// The deadline to complete this offer <em>in UTC timezone</em> for started offers. Always <code>nil</code> for not started offers.
+@property (nonatomic, readonly, copy) NSDate * _Nullable completeBy;
+@property (nonatomic, readonly, strong) InBrainCurrencySale * _Nullable campaignCurrencySale;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");

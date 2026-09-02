@@ -10,6 +10,7 @@ namespace InBrain
 		[SerializeField] string appUserId = "testing-unity@inbrain.ai";
 
 		[SerializeField] InBrainSurveysListPanel inBrainSurveysListPanel = null;
+		[SerializeField] InBrainOffersListPanel inBrainOffersListPanel = null;
 
 		[Space] [SerializeField] Text balanceText = null;
 
@@ -66,6 +67,12 @@ namespace InBrain
 			inBrainSurveysListPanel?.Show();
 		}
 
+		public void OnShowOffersListClicked()
+		{
+			EnsureOffersListPanel();
+			inBrainOffersListPanel?.Show();
+		}
+
 		public void OnGetRewardsClicked()
 		{
 			Debug.Log("InBrain: GetRewards button clicked");
@@ -102,6 +109,25 @@ namespace InBrain
 		void ProcessWebViewDismissed(InBrainRewardsViewDismissedResult result)
 		{
 			Debug.Log($"InBrain: Surveys web view was dismissed (by WebView: {result.byWebView})");
+
+			if (inBrainOffersListPanel != null && inBrainOffersListPanel.gameObject.activeInHierarchy)
+			{
+				inBrainOffersListPanel.Refresh();
+			}
+		}
+
+		void EnsureOffersListPanel()
+		{
+			if (inBrainOffersListPanel != null)
+			{
+				return;
+			}
+
+			var panel = new GameObject("OffersListPanel", typeof(RectTransform));
+			panel.SetActive(false);
+			panel.transform.SetParent(transform, false);
+			InBrainOffersUi.Stretch(panel.GetComponent<RectTransform>());
+			inBrainOffersListPanel = panel.AddComponent<InBrainOffersListPanel>();
 		}
 
 		void SetStatusBarConfiguration()

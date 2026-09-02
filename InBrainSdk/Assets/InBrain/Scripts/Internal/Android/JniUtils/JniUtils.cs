@@ -40,5 +40,16 @@ namespace InBrain
 				return c.CallStaticInt("argb", color.a, color.r, color.g, color.b);
 			}
 		}
+
+		public static string FromJavaDate(AndroidJavaObject dateAjo)
+		{
+			if (dateAjo.IsJavaNull())
+			{
+				return null;
+			}
+
+			var millis = dateAjo.Call<long>("getTime");
+			return DateTimeOffset.FromUnixTimeMilliseconds(millis).UtcDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+		}
 	}
 }

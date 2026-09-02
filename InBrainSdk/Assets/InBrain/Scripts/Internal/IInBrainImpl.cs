@@ -22,5 +22,7 @@ namespace InBrain
 		void SetStatusBarConfig(InBrainStatusBarConfig config);
 		void GetSurveysWithFilter(InBrainSurveyFilter filter, Action<List<InBrainSurvey>> onSurveysReceived);
 		void GetCurrencySale(Action<InBrainCurrencySale> onCurrencySaleReceived);
+		void GetNativeOffers(InBrainOfferFilter filter, Action<List<InBrainNativeOffer>> onOffersReceived);
+		void OpenOffer(int offerId);
 	}
 }

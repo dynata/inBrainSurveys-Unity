@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and `InBrainSurveys` adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.0](https://github.com/inbrainai/unitysdk/releases/tag/v.3.1.0) - 2026-09-02
+
+### Added
+- Native Offers Support
+
+### Changed
+- Added redirect to `missing session` error
+- Android native dependency updated to `com.github.inbrainai:sdk-android:3.1.3`.
+- iOS native dependency updated to `InBrainSurveys 3.0.3`.
+
 ## [3.0.1](https://github.com/inbrainai/unitysdk/releases/tag/v.3.0.1) - 2026-08-12
 
 ### Changed

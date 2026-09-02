@@ -114,10 +114,17 @@ import _SwiftConcurrencyShims
   @objc final public let thumbnailUrl: Swift.String?
   @objc final public let heroImageUrl: Swift.String?
   @objc final public let offerDescription: [Swift.String]?
+  @objc final public let instructions: [Swift.String]?
+  @objc final public let requirements: [Swift.String]?
+  @objc final public let tags: [Swift.String]?
   @objc final public let categories: [Swift.String]?
   @objc final public let promotion: InBrainSurveys.InBrainOfferPromotion?
   @objc final public let standardGoals: [InBrainSurveys.InBrainOfferGoal]?
   @objc final public let purchaseGoals: [InBrainSurveys.InBrainOfferGoal]?
+  @objc final public let attributionWindowMinutes: Swift.Int
+  @objc final public let attemptedAt: Foundation.Date?
+  @objc final public let completeBy: Foundation.Date?
+  @objc final public let campaignCurrencySale: InBrainSurveys.InBrainCurrencySale?
   @objc override dynamic public var description: Swift.String {
     @objc get
   }

@@ -80,6 +80,8 @@ extern "C" {
     void _ib_ShowSurveys(int wallOption) {
         inBrainView.surveyId = @"";
         inBrainView.searchId = @"";
+        inBrainView.shouldOpenOffer = NO;
+        inBrainView.offerId = 0;
         
         inBrainView.wallOption = (InBrainWallOption)wallOption;
         
@@ -92,6 +94,16 @@ extern "C" {
         inBrainView.surveyId = surveyId;
         inBrainView.searchId = srchId;
         inBrainView.offersEnabled = offersEnabled;
+        inBrainView.shouldOpenOffer = NO;
+        inBrainView.offerId = 0;
+        [UnityGetGLViewController() presentViewController:inBrainView animated:NO completion:nil];
+    }
+
+    void _ib_OpenOffer(int offerId) {
+        inBrainView.surveyId = @"";
+        inBrainView.searchId = @"";
+        inBrainView.shouldOpenOffer = YES;
+        inBrainView.offerId = offerId;
         [UnityGetGLViewController() presentViewController:inBrainView animated:NO completion:nil];
     }
 
@@ -175,6 +187,27 @@ extern "C" {
             currencySaleReceivedCallback(currencySaleReceivedActionPtr, [InBrainUtils createCStringFrom:currencySale]);
         } failed:^(NSError* error) {
             failedToReceiveCurrencySaleCallback(failedToReceiveCurrencySaleActionPtr);
+        }];
+    }
+
+    void _ib_GetNativeOffersWithFilterAndCallback(char* filterJson, ActionStringCallbackDelegate offersReceivedCallback, void *offersReceivedActionPtr,
+        ActionVoidCallbackDelegate failedToReceiveOffersCallback, void *failedToReceiveOffersActionPtr) {
+        InBrainOfferFilter* filter = nil;
+        if (filterJson != nil) {
+            NSDictionary* filterDataDictionary = [InBrainJsonUtils deserializeDictionary:[InBrainUtils createNSStringFrom:filterJson]];
+            if (filterDataDictionary != nil && filterDataDictionary[@"type"] != nil) {
+                InBrainOfferType type = (InBrainOfferType)[filterDataDictionary[@"type"] intValue];
+                int limit = filterDataDictionary[@"limit"] != nil ? [filterDataDictionary[@"limit"] intValue] : 10;
+                int offset = filterDataDictionary[@"offset"] != nil ? [filterDataDictionary[@"offset"] intValue] : 0;
+                filter = [[InBrainOfferFilter alloc] initWithType:type limit:limit offset:offset];
+            }
+        }
+
+        [[InBrain shared] getNativeOffersWithFilter:filter success:^(NSArray<InBrainNativeOffer *> * _Nonnull offersArray) {
+            NSString* offers = [InBrainJsonUtils serializeOffers:offersArray];
+            offersReceivedCallback(offersReceivedActionPtr, [InBrainUtils createCStringFrom:offers]);
+        } failed:^(NSError* error) {
+            failedToReceiveOffersCallback(failedToReceiveOffersActionPtr);
         }];
     }
 }

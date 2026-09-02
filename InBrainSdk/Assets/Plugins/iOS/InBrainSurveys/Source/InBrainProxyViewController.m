@@ -28,7 +28,12 @@ bool isOpened = false;
     [super viewDidAppear:animated];
     
     if (!isOpened) {
-        if([_surveyId length] == 0) {
+        if (_shouldOpenOffer) {
+            [inBrain openOfferWithId:_offerId success:^{} failed:^(NSError * error) {
+                NSLog(@"Failed to open inBrain offer: %@", error.localizedDescription);
+            }];
+        }
+        else if([_surveyId length] == 0) {
             [inBrain openWallWith:_wallOption from:self];
         }
         else {

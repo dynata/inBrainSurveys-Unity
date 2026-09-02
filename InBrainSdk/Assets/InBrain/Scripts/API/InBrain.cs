@@ -273,5 +273,24 @@ namespace InBrain
 		{
 			InBrainImpl?.GetCurrencySale(onCurrencySaleReceived);
 		}
+
+		/// <summary>
+		/// Request list of native offers matching given filter
+		/// </summary>
+		/// <param name="filter">Offers filter. When using <see cref="InBrainOfferType.Started"/>, limit and offset are ignored by the API</param>
+		/// <param name="onOffersReceived">Callback triggered when offers received</param>
+		public void GetNativeOffers(InBrainOfferFilter filter, [NotNull] Action<List<InBrainNativeOffer>> onOffersReceived)
+		{
+			InBrainImpl?.GetNativeOffers(filter, onOffersReceived);
+		}
+
+		/// <summary>
+		/// Open web view for specified native offer
+		/// </summary>
+		/// <param name="offerId">Specific offer identifier</param>
+		public void OpenOffer(int offerId)
+		{
+			InBrainImpl?.OpenOffer(offerId);
+		}
 	}
 }

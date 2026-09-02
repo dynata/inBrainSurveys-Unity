@@ -14,6 +14,7 @@
 + (NSString *)serializeDictionary:(NSDictionary *)dictionary;
 + (NSString *)serializeRewards:(NSArray<InBrainReward *> *)rewards;
 + (NSString *)serializeSurveys:(NSArray<InBrainNativeSurvey *> *)surveys;
++ (NSString *)serializeOffers:(NSArray<InBrainNativeOffer *> *)offers;
 + (NSString *)serializeCurrencySale:(InBrainCurrencySale *)currencySale;
 + (NSString *)serializeRewardsViewDismissedResult:(NSArray<InBrainSurveyReward *> *)rewards byWebView:(BOOL)status;
 

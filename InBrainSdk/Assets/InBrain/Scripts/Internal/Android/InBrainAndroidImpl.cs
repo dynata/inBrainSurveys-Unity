@@ -144,5 +144,18 @@ namespace InBrain
 		{
 			InBrainInst?.Call(Constants.GetCurrencySaleJavaMethod, new InBrainCurrencySaleCallbackProxy(onCurrencySaleReceived));
 		}
+
+		public void GetNativeOffers(InBrainOfferFilter filter, Action<List<InBrainNativeOffer>> onOffersReceived)
+		{
+			InBrainInst?.Call(Constants.GetNativeOffersJavaMethod, filter?.ToAJO(), new InBrainGetNativeOffersCallbackProxy(onOffersReceived));
+		}
+
+		public void OpenOffer(int offerId)
+		{
+			JniUtils.RunOnUiThread(() =>
+			{
+				InBrainInst?.Call(Constants.OpenOfferJavaMethod, offerId, JniUtils.Activity, new InBrainOpenOfferCallbackProxy());
+			});
+		}
 	}
 }

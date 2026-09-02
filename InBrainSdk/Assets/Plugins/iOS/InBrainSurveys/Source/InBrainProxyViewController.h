@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) InBrainWallOption wallOption;
 @property(nonatomic, assign) BOOL offersEnabled;
+@property(nonatomic, assign) BOOL shouldOpenOffer;
+@property(nonatomic, assign) NSInteger offerId;
 
 @end
 
