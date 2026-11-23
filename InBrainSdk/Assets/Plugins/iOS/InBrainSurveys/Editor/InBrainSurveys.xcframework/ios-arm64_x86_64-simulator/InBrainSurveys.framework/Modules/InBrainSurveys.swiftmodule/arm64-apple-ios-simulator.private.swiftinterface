@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
-// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -Onone -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InBrainSurveys
+// swift-module-flags: -target arm64-apple-ios17.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -Onone -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name InBrainSurveys
 // swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
 import CommonCrypto
 import CryptoKit
@@ -8,7 +8,6 @@ import DeveloperToolsSupport
 import Foundation
 @_exported import InBrainSurveys
 import Swift
-import SwiftUI
 import SystemConfiguration
 import UIKit
 import WebKit
@@ -22,10 +21,21 @@ import _SwiftConcurrencyShims
   @objc final public let reward: Swift.Double
   @objc final public let rewardString: Swift.String
   @objc final public let isCompleted: Swift.Bool
+  @objc final public let isPending: Swift.Bool
   @objc final public let sortOrder: Swift.Int
   @objc final public let attributionWindowMinutes: Swift.Int
   @objc final public let completeBy: Foundation.Date?
   @objc final public let promotion: InBrainSurveys.InBrainOfferPromotion?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@objc public class InBrainOfferBannerAd : ObjectiveC.NSObject, Swift.Decodable {
+  @objc final public let header: Swift.String?
+  @objc final public let buttonText: Swift.String?
+  @objc final public let bannerDescription: Swift.String?
   @objc override dynamic public var description: Swift.String {
     @objc get
   }
@@ -75,13 +85,15 @@ import _SwiftConcurrencyShims
   @objc final public func getRewards(success: @escaping ([InBrainSurveys.InBrainReward]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @objc final public func getRewards()
   @objc final public func confirmRewards(txIdArray: [Swift.Int])
-  @objc final public func getCurrencySale(success: @escaping (InBrainSurveys.InBrainCurrencySale?) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @objc final public func getCurrencySale(for type: InBrainSurveys.InBrainCurrencySaleType, success: @escaping (InBrainSurveys.InBrainCurrencySale?) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil)
   @objc final public func getNativeSurveys(filter: InBrainSurveys.InBrainSurveyFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeSurvey]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @objc final public func openSurvey(_ survey: InBrainSurveys.InBrainNativeSurvey, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
   @objc final public func openSurveyWith(id surveyId: Swift.String, searchId: Swift.String, offersEnabled: Swift.Bool, from viewController: UIKit.UIViewController? = nil)
   @objc final public func getNativeOffers(filter: InBrainSurveys.InBrainOfferFilter? = nil, success: @escaping ([InBrainSurveys.InBrainNativeOffer]) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @objc final public func openOfferWith(id: Swift.Int, success: @escaping () -> (), failed: @escaping InBrainSurveys.ErrorCallback)
+  @available(*, deprecated, message: "Please, use getCurrencySale(for:success:failed:)")
+  @objc final public func getCurrencySale(success: @escaping (InBrainSurveys.InBrainCurrencySale?) -> (), failed: @escaping InBrainSurveys.ErrorCallback)
   @available(*, deprecated, message: "Please, use setInBrain(apiClientID:apiSecret:isS2S:) followed by set(userID:)")
   @objc final public func setInBrain(apiClientID: Swift.String, apiSecret: Swift.String, isS2S: Swift.Bool, userID: Swift.String?)
   @available(*, deprecated, message: "Please, use openSurvey(survey:offersEnabled:from:)")
@@ -117,6 +129,7 @@ import _SwiftConcurrencyShims
   @objc final public let requirements: [Swift.String]?
   @objc final public let tags: [Swift.String]?
   @objc final public let categories: [Swift.String]?
+  @objc final public let platforms: [Swift.String]?
   @objc final public let promotion: InBrainSurveys.InBrainOfferPromotion?
   @objc final public let standardGoals: [InBrainSurveys.InBrainOfferGoal]?
   @objc final public let purchaseGoals: [InBrainSurveys.InBrainOfferGoal]?
@@ -124,6 +137,9 @@ import _SwiftConcurrencyShims
   @objc final public let attemptedAt: Foundation.Date?
   @objc final public let completeBy: Foundation.Date?
   @objc final public let campaignCurrencySale: InBrainSurveys.InBrainCurrencySale?
+  @objc final public let bannerAd: InBrainSurveys.InBrainOfferBannerAd?
+  @objc final public let status: Swift.String?
+  @objc final public let isCompleted: Swift.Bool
   @objc override dynamic public var description: Swift.String {
     @objc get
   }
@@ -248,6 +264,15 @@ public enum InBrainError : Swift.Error, Foundation.LocalizedError, Foundation.Cu
     get
   }
   public var errorDescription: Swift.String? {
+    get
+  }
+}
+@objc public enum InBrainCurrencySaleType : Swift.Int {
+  case surveys
+  case offers
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
     get
   }
 }
@@ -407,6 +432,9 @@ extension InBrainSurveys.InBrainWallOption : Swift.RawRepresentable {}
 extension InBrainSurveys.InBrainSurveyCategory : Swift.Equatable {}
 extension InBrainSurveys.InBrainSurveyCategory : Swift.Hashable {}
 extension InBrainSurveys.InBrainSurveyCategory : Swift.RawRepresentable {}
+extension InBrainSurveys.InBrainCurrencySaleType : Swift.Equatable {}
+extension InBrainSurveys.InBrainCurrencySaleType : Swift.Hashable {}
+extension InBrainSurveys.InBrainCurrencySaleType : Swift.RawRepresentable {}
 extension InBrainSurveys.SurveyConversionLevel : Swift.Equatable {}
 extension InBrainSurveys.SurveyConversionLevel : Swift.Hashable {}
 extension InBrainSurveys.SurveyConversionLevel : Swift.RawRepresentable {}

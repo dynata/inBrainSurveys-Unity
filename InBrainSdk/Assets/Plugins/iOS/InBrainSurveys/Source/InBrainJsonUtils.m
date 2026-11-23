@@ -99,6 +99,24 @@
     };
 }
 
++ (NSDictionary *)bannerAdDictionary:(InBrainOfferBannerAd *)bannerAd {
+    if (bannerAd == nil) {
+        return nil;
+    }
+
+    NSMutableDictionary *bannerAdDict = [NSMutableDictionary dictionary];
+    if (bannerAd.header) {
+        bannerAdDict[@"header"] = bannerAd.header;
+    }
+    if (bannerAd.buttonText) {
+        bannerAdDict[@"buttonText"] = bannerAd.buttonText;
+    }
+    if (bannerAd.bannerDescription) {
+        bannerAdDict[@"bannerDescription"] = bannerAd.bannerDescription;
+    }
+    return bannerAdDict;
+}
+
 + (NSDictionary *)goalDictionary:(InBrainOfferGoal *)goal {
     NSMutableDictionary *goalDict = [NSMutableDictionary dictionary];
     goalDict[@"id"] = @(goal.id);
@@ -107,6 +125,7 @@
     goalDict[@"reward"] = @(goal.reward);
     goalDict[@"rewardString"] = goal.rewardString ?: @"";
     goalDict[@"isCompleted"] = @(goal.isCompleted);
+    goalDict[@"isPending"] = @(goal.isPending);
     goalDict[@"sortOrder"] = @(goal.sortOrder);
     goalDict[@"attributionWindowMinutes"] = @(goal.attributionWindowMinutes);
 
@@ -146,11 +165,13 @@
         offer[@"rewardString"] = nativeOffer.rewardString ?: @"";
         offer[@"featuredRank"] = @(nativeOffer.featuredRank);
         offer[@"attributionWindowMinutes"] = @(nativeOffer.attributionWindowMinutes);
+        offer[@"isCompleted"] = @(nativeOffer.isCompleted);
         offer[@"offerDescription"] = nativeOffer.offerDescription ?: @[];
         offer[@"instructions"] = nativeOffer.instructions ?: @[];
         offer[@"requirements"] = nativeOffer.requirements ?: @[];
         offer[@"tags"] = nativeOffer.tags ?: @[];
         offer[@"categories"] = nativeOffer.categories ?: @[];
+        offer[@"platforms"] = nativeOffer.platforms ?: @[];
         offer[@"standardGoals"] = [self goalDictionaries:nativeOffer.standardGoals];
         offer[@"purchaseGoals"] = [self goalDictionaries:nativeOffer.purchaseGoals];
 
@@ -159,6 +180,9 @@
         }
         if (nativeOffer.heroImageUrl) {
             offer[@"heroImageUrl"] = nativeOffer.heroImageUrl;
+        }
+        if (nativeOffer.status) {
+            offer[@"status"] = nativeOffer.status;
         }
         if (nativeOffer.attemptedAt) {
             offer[@"attemptedAt"] = [dateFormatter stringFromDate:nativeOffer.attemptedAt];
@@ -172,6 +196,9 @@
         if (nativeOffer.campaignCurrencySale) {
             offer[@"campaignCurrencySale"] = [self currencySaleDictionary:nativeOffer.campaignCurrencySale];
         }
+        if (nativeOffer.bannerAd) {
+            offer[@"bannerAd"] = [self bannerAdDictionary:nativeOffer.bannerAd];
+        }
 
         [offersArray addObject:offer];
     }
@@ -182,7 +209,7 @@
 
 + (NSString *)serializeCurrencySale:(InBrainCurrencySale *)currencySale {
     NSDictionary *dictionary = [self currencySaleDictionary:currencySale];
-    return dictionary != nil ? [self serializeDictionary:dictionary] : @"{}";
+    return dictionary != nil ? [self serializeDictionary:dictionary] : @"";
 }
 
 + (NSString *)serializeRewardsViewDismissedResult:(NSArray<InBrainSurveyReward *> *)rewards byWebView:(BOOL)status {

@@ -269,9 +269,20 @@ namespace InBrain
 		/// Request information about active currency sale
 		/// </summary>
 		/// <param name="onCurrencySaleReceived">Callback triggered when currency sale received</param>
+		[Obsolete("This method is deprecated. Use `GetCurrencySaleFor(InBrainCurrencySaleType type, Action<InBrainCurrencySale> onCurrencySaleReceived)` instead.")]
 		public void GetCurrencySale([NotNull] Action<InBrainCurrencySale> onCurrencySaleReceived)
 		{
-			InBrainImpl?.GetCurrencySale(onCurrencySaleReceived);
+			GetCurrencySaleFor(InBrainCurrencySaleType.Surveys, onCurrencySaleReceived);
+		}
+
+		/// <summary>
+		/// Request information about active currency sale for the specified type
+		/// </summary>
+		/// <param name="type">Type of currency sale to fetch (<see cref="InBrainCurrencySaleType.Surveys"/> or <see cref="InBrainCurrencySaleType.Offers"/>)</param>
+		/// <param name="onCurrencySaleReceived">Callback triggered when currency sale received</param>
+		public void GetCurrencySaleFor(InBrainCurrencySaleType type, [NotNull] Action<InBrainCurrencySale> onCurrencySaleReceived)
+		{
+			InBrainImpl?.GetCurrencySaleFor(type, onCurrencySaleReceived);
 		}
 
 		/// <summary>

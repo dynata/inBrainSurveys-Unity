@@ -182,21 +182,24 @@ namespace InBrain
 #endif
 		}
 
-		public void GetCurrencySale(Action<InBrainCurrencySale> onCurrencySaleReceived)
+		public void GetCurrencySaleFor(InBrainCurrencySaleType type, Action<InBrainCurrencySale> onCurrencySaleReceived)
 		{
 			Action<string> onCurrencySaleReceivedNative = currencySaleJson =>
 			{
-				var currencySale = JsonUtility.FromJson<InBrainCurrencySale>(currencySaleJson);
+				var currencySale = string.IsNullOrEmpty(currencySaleJson) || currencySaleJson == "{}"
+					? null
+					: JsonUtility.FromJson<InBrainCurrencySale>(currencySaleJson);
 				onCurrencySaleReceived?.Invoke(currencySale);
 			};
 
 			Action onFailedToReceiveCurrencySale = () =>
 			{
 				Debug.Log("Failed to receive currency sale");
+				onCurrencySaleReceived?.Invoke(null);
 			};
 			
 #if UNITY_IOS && !UNITY_EDITOR
-			_ib_GetCurrencySale(Callbacks.ActionStringCallback, onCurrencySaleReceivedNative.GetPointer(),
+			_ib_GetCurrencySale((int) type, Callbacks.ActionStringCallback, onCurrencySaleReceivedNative.GetPointer(),
 				Callbacks.ActionVoidCallback, onFailedToReceiveCurrencySale.GetPointer());
 #endif
 		}
@@ -283,7 +286,7 @@ namespace InBrain
 			Callbacks.ActionVoidCallbackDelegate failedToReceiveSurveysCallback, IntPtr failedToReceiveSurveysActionPtr);
 
 		[DllImport("__Internal")]
-		static extern void _ib_GetCurrencySale(Callbacks.ActionStringCallbackDelegate currencySaleReceivedCallback, IntPtr currencySaleReceivedActionPtr,
+		static extern void _ib_GetCurrencySale(int type, Callbacks.ActionStringCallbackDelegate currencySaleReceivedCallback, IntPtr currencySaleReceivedActionPtr,
 			Callbacks.ActionVoidCallbackDelegate failedToReceiveCurrencySaleCallback, IntPtr failedToReceiveCurrencySaleActionPtr);
 
 		[DllImport("__Internal")]

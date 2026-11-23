@@ -379,6 +379,7 @@ extern "C" {
 SWIFT_ENUM_FWD_DECL(NSInteger, InBrainWallOption)
 @class UIViewController;
 @class InBrainReward;
+SWIFT_ENUM_FWD_DECL(NSInteger, InBrainCurrencySaleType)
 @class InBrainCurrencySale;
 @class InBrainSurveyFilter;
 @class InBrainNativeSurvey;
@@ -454,7 +455,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InBrain * _N
 ///
 - (void)confirmRewardsWithTxIdArray:(NSArray<NSNumber *> * _Nonnull)txIdArray;
 /// Get information about active Currency Sale
-- (void)getCurrencySaleWithSuccess:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
+/// \param type Type of Currency Sale to fetch (<code>.surveys</code> or <code>.offers</code>).
+///
+- (void)getCurrencySaleFor:(enum InBrainCurrencySaleType)type success:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
 /// Get native surveys for the user. Result will be delivered to <code>NativeSurveyDelegate</code>.
 /// After survey completed - it becames invalid and cannot be opened again. Please, take care about refreshing surveys with appropriate filter(s).
 /// We are proposing to fetch <em>NativeSurveys</em> each time after <em>InBbrainWebView</em> closed and some survey(s) completed.
@@ -507,6 +510,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InBrain * _N
 - (void)openSurveyWithId:(NSString * _Nonnull)surveyId searchId:(NSString * _Nonnull)searchId offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController;
 - (void)getNativeOffersWithFilter:(InBrainOfferFilter * _Nullable)filter success:(void (^ _Nonnull)(NSArray<InBrainNativeOffer *> * _Nonnull))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
 - (void)openOfferWithId:(NSInteger)id success:(void (^ _Nonnull)(void))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
+- (void)getCurrencySaleWithSuccess:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed SWIFT_DEPRECATED_MSG("Please, use getCurrencySale(for:success:failed:)");
 - (void)setInBrainWithApiClientID:(NSString * _Nonnull)apiClientID apiSecret:(NSString * _Nonnull)apiSecret isS2S:(BOOL)isS2S userID:(NSString * _Nullable)userID SWIFT_DEPRECATED_MSG("Please, use setInBrain(apiClientID:apiSecret:isS2S:) followed by set(userID:)");
 - (void)showNativeSurvey:(InBrainNativeSurvey * _Nonnull)survey offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController SWIFT_DEPRECATED_MSG("Please, use openSurvey(survey:offersEnabled:from:)");
 - (void)showNativeSurveyWithId:(NSString * _Nonnull)surveyId searchId:(NSString * _Nonnull)searchId offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController SWIFT_DEPRECATED_MSG("Please, use openSurvey(id:searchId:offersEnabled:from:)");
@@ -535,6 +539,11 @@ SWIFT_CLASS("_TtC14InBrainSurveys19InBrainCurrencySale")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+typedef SWIFT_ENUM(NSInteger, InBrainCurrencySaleType, open) {
+  InBrainCurrencySaleTypeSurveys = 0,
+  InBrainCurrencySaleTypeOffers = 1,
+};
+
 @class InBrainSurveyReward;
 /// Allows your app to handle events from InBrain service
 /// *
@@ -562,6 +571,7 @@ SWIFT_PROTOCOL("_TtP14InBrainSurveys15InBrainDelegate_")
 
 @class InBrainOfferPromotion;
 @class InBrainOfferGoal;
+@class InBrainOfferBannerAd;
 SWIFT_CLASS("_TtC14InBrainSurveys18InBrainNativeOffer")
 @interface InBrainNativeOffer : NSObject
 @property (nonatomic, readonly) NSInteger id;
@@ -579,16 +589,23 @@ SWIFT_CLASS("_TtC14InBrainSurveys18InBrainNativeOffer")
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable requirements;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable tags;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable categories;
+/// Supported device form factors (e.g. <code>"Phone"</code>, <code>"Tablet"</code>).
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable platforms;
 @property (nonatomic, readonly, strong) InBrainOfferPromotion * _Nullable promotion;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable standardGoals;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable purchaseGoals;
-/// The attribution window in minutes for not started offers. Always <code>-1</code> for started offers.
+/// The attribution window in minutes. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger attributionWindowMinutes;
 /// When the user started this offer. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable attemptedAt;
 /// The deadline to complete this offer <em>in UTC timezone</em> for started offers. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable completeBy;
 @property (nonatomic, readonly, strong) InBrainCurrencySale * _Nullable campaignCurrencySale;
+@property (nonatomic, readonly, strong) InBrainOfferBannerAd * _Nullable bannerAd;
+/// Current offer status (e.g. <code>"Open"</code>, <code>"Closed"</code>). Always <code>nil</code> if not specified.
+@property (nonatomic, readonly, copy) NSString * _Nullable status;
+/// Indicates whether the offer has been completed.
+@property (nonatomic, readonly) BOOL isCompleted;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -641,6 +658,16 @@ SWIFT_CLASS("_TtC14InBrainSurveys19InBrainNavBarConfig")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+SWIFT_CLASS("_TtC14InBrainSurveys20InBrainOfferBannerAd")
+@interface InBrainOfferBannerAd : NSObject
+@property (nonatomic, readonly, copy) NSString * _Nullable header;
+@property (nonatomic, readonly, copy) NSString * _Nullable buttonText;
+@property (nonatomic, readonly, copy) NSString * _Nullable bannerDescription;
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 SWIFT_ENUM_FWD_DECL(NSInteger, InBrainOfferType)
 SWIFT_CLASS("_TtC14InBrainSurveys18InBrainOfferFilter")
 @interface InBrainOfferFilter : NSObject
@@ -672,9 +699,11 @@ SWIFT_CLASS("_TtC14InBrainSurveys16InBrainOfferGoal")
 @property (nonatomic, readonly) double reward;
 @property (nonatomic, readonly, copy) NSString * _Nonnull rewardString;
 @property (nonatomic, readonly) BOOL isCompleted;
+/// Indicates whether the goal reward is currently pending.
+@property (nonatomic, readonly) BOOL isPending;
 /// The display order of the goal. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger sortOrder;
-/// The attribution window in minutes for not started offers. Always <code>-1</code> for started offers.
+/// The attribution window in minutes for started and not started offers. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger attributionWindowMinutes;
 /// The deadline to complete this goal <em>in UTC timezone</em> for started offers. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable completeBy;
@@ -1240,6 +1269,7 @@ extern "C" {
 SWIFT_ENUM_FWD_DECL(NSInteger, InBrainWallOption)
 @class UIViewController;
 @class InBrainReward;
+SWIFT_ENUM_FWD_DECL(NSInteger, InBrainCurrencySaleType)
 @class InBrainCurrencySale;
 @class InBrainSurveyFilter;
 @class InBrainNativeSurvey;
@@ -1315,7 +1345,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InBrain * _N
 ///
 - (void)confirmRewardsWithTxIdArray:(NSArray<NSNumber *> * _Nonnull)txIdArray;
 /// Get information about active Currency Sale
-- (void)getCurrencySaleWithSuccess:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
+/// \param type Type of Currency Sale to fetch (<code>.surveys</code> or <code>.offers</code>).
+///
+- (void)getCurrencySaleFor:(enum InBrainCurrencySaleType)type success:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
 /// Get native surveys for the user. Result will be delivered to <code>NativeSurveyDelegate</code>.
 /// After survey completed - it becames invalid and cannot be opened again. Please, take care about refreshing surveys with appropriate filter(s).
 /// We are proposing to fetch <em>NativeSurveys</em> each time after <em>InBbrainWebView</em> closed and some survey(s) completed.
@@ -1368,6 +1400,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) InBrain * _N
 - (void)openSurveyWithId:(NSString * _Nonnull)surveyId searchId:(NSString * _Nonnull)searchId offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController;
 - (void)getNativeOffersWithFilter:(InBrainOfferFilter * _Nullable)filter success:(void (^ _Nonnull)(NSArray<InBrainNativeOffer *> * _Nonnull))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
 - (void)openOfferWithId:(NSInteger)id success:(void (^ _Nonnull)(void))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed;
+- (void)getCurrencySaleWithSuccess:(void (^ _Nonnull)(InBrainCurrencySale * _Nullable))success failed:(void (^ _Nonnull)(NSError * _Nonnull))failed SWIFT_DEPRECATED_MSG("Please, use getCurrencySale(for:success:failed:)");
 - (void)setInBrainWithApiClientID:(NSString * _Nonnull)apiClientID apiSecret:(NSString * _Nonnull)apiSecret isS2S:(BOOL)isS2S userID:(NSString * _Nullable)userID SWIFT_DEPRECATED_MSG("Please, use setInBrain(apiClientID:apiSecret:isS2S:) followed by set(userID:)");
 - (void)showNativeSurvey:(InBrainNativeSurvey * _Nonnull)survey offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController SWIFT_DEPRECATED_MSG("Please, use openSurvey(survey:offersEnabled:from:)");
 - (void)showNativeSurveyWithId:(NSString * _Nonnull)surveyId searchId:(NSString * _Nonnull)searchId offersEnabled:(BOOL)offersEnabled from:(UIViewController * _Nullable)viewController SWIFT_DEPRECATED_MSG("Please, use openSurvey(id:searchId:offersEnabled:from:)");
@@ -1396,6 +1429,11 @@ SWIFT_CLASS("_TtC14InBrainSurveys19InBrainCurrencySale")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+typedef SWIFT_ENUM(NSInteger, InBrainCurrencySaleType, open) {
+  InBrainCurrencySaleTypeSurveys = 0,
+  InBrainCurrencySaleTypeOffers = 1,
+};
+
 @class InBrainSurveyReward;
 /// Allows your app to handle events from InBrain service
 /// *
@@ -1423,6 +1461,7 @@ SWIFT_PROTOCOL("_TtP14InBrainSurveys15InBrainDelegate_")
 
 @class InBrainOfferPromotion;
 @class InBrainOfferGoal;
+@class InBrainOfferBannerAd;
 SWIFT_CLASS("_TtC14InBrainSurveys18InBrainNativeOffer")
 @interface InBrainNativeOffer : NSObject
 @property (nonatomic, readonly) NSInteger id;
@@ -1440,16 +1479,23 @@ SWIFT_CLASS("_TtC14InBrainSurveys18InBrainNativeOffer")
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable requirements;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable tags;
 @property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable categories;
+/// Supported device form factors (e.g. <code>"Phone"</code>, <code>"Tablet"</code>).
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable platforms;
 @property (nonatomic, readonly, strong) InBrainOfferPromotion * _Nullable promotion;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable standardGoals;
 @property (nonatomic, readonly, copy) NSArray<InBrainOfferGoal *> * _Nullable purchaseGoals;
-/// The attribution window in minutes for not started offers. Always <code>-1</code> for started offers.
+/// The attribution window in minutes. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger attributionWindowMinutes;
 /// When the user started this offer. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable attemptedAt;
 /// The deadline to complete this offer <em>in UTC timezone</em> for started offers. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable completeBy;
 @property (nonatomic, readonly, strong) InBrainCurrencySale * _Nullable campaignCurrencySale;
+@property (nonatomic, readonly, strong) InBrainOfferBannerAd * _Nullable bannerAd;
+/// Current offer status (e.g. <code>"Open"</code>, <code>"Closed"</code>). Always <code>nil</code> if not specified.
+@property (nonatomic, readonly, copy) NSString * _Nullable status;
+/// Indicates whether the offer has been completed.
+@property (nonatomic, readonly) BOOL isCompleted;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -1502,6 +1548,16 @@ SWIFT_CLASS("_TtC14InBrainSurveys19InBrainNavBarConfig")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+SWIFT_CLASS("_TtC14InBrainSurveys20InBrainOfferBannerAd")
+@interface InBrainOfferBannerAd : NSObject
+@property (nonatomic, readonly, copy) NSString * _Nullable header;
+@property (nonatomic, readonly, copy) NSString * _Nullable buttonText;
+@property (nonatomic, readonly, copy) NSString * _Nullable bannerDescription;
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 SWIFT_ENUM_FWD_DECL(NSInteger, InBrainOfferType)
 SWIFT_CLASS("_TtC14InBrainSurveys18InBrainOfferFilter")
 @interface InBrainOfferFilter : NSObject
@@ -1533,9 +1589,11 @@ SWIFT_CLASS("_TtC14InBrainSurveys16InBrainOfferGoal")
 @property (nonatomic, readonly) double reward;
 @property (nonatomic, readonly, copy) NSString * _Nonnull rewardString;
 @property (nonatomic, readonly) BOOL isCompleted;
+/// Indicates whether the goal reward is currently pending.
+@property (nonatomic, readonly) BOOL isPending;
 /// The display order of the goal. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger sortOrder;
-/// The attribution window in minutes for not started offers. Always <code>-1</code> for started offers.
+/// The attribution window in minutes for started and not started offers. Always <code>-1</code> if not specified.
 @property (nonatomic, readonly) NSInteger attributionWindowMinutes;
 /// The deadline to complete this goal <em>in UTC timezone</em> for started offers. Always <code>nil</code> for not started offers.
 @property (nonatomic, readonly, copy) NSDate * _Nullable completeBy;

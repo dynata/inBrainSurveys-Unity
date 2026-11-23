@@ -15,6 +15,7 @@
 		public const string InBrainSurveyConversionLevelJavaClass = "com.inbrain.sdk.model.SurveyConversionLevel";
 		public const string InBrainSurveyOutcomeTypeJavaClass = "com.inbrain.sdk.model.SurveyOutcomeType";
 		public const string InBrainWallOptionClass = "com.inbrain.sdk.model.WallOption";
+		public const string InBrainCurrencySaleTypeJavaClass = "com.inbrain.sdk.model.CurrencySaleType";
 		public const string InBrainOfferTypeJavaClass = "com.inbrain.sdk.model.offers.InBrainOfferType";
 		public const string InBrainOfferFilterJavaClass = "com.inbrain.sdk.model.offers.InBrainOfferFilter";
 		public const string GetNativeOffersCallbackJavaClass = "com.inbrain.sdk.callback.GetNativeOffersCallback";
