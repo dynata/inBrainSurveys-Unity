@@ -140,9 +140,9 @@ namespace InBrain
 			InBrainInst?.Call(Constants.GetSurveysJavaMethod, filter?.ToAJO(), new InBrainGetSurveysCallbackProxy(onSurveysReceived));
 		}
 
-		public void GetCurrencySale(Action<InBrainCurrencySale> onCurrencySaleReceived)
+		public void GetCurrencySaleFor(InBrainCurrencySaleType type, Action<InBrainCurrencySale> onCurrencySaleReceived)
 		{
-			InBrainInst?.Call(Constants.GetCurrencySaleJavaMethod, new InBrainCurrencySaleCallbackProxy(onCurrencySaleReceived));
+			InBrainInst?.Call(Constants.GetCurrencySaleJavaMethod, type.ToAJO(), new InBrainCurrencySaleCallbackProxy(onCurrencySaleReceived));
 		}
 
 		public void GetNativeOffers(InBrainOfferFilter filter, Action<List<InBrainNativeOffer>> onOffersReceived)

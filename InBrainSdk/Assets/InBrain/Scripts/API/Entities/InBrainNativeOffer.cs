@@ -20,6 +20,7 @@ namespace InBrain
 		[SerializeField] public List<string> requirements = new List<string>();
 		[SerializeField] public List<string> tags = new List<string>();
 		[SerializeField] public List<string> categories = new List<string>();
+		[SerializeField] public List<string> platforms = new List<string>();
 		[SerializeField] public InBrainOfferPromotion promotion;
 		[SerializeField] public List<InBrainOfferGoal> standardGoals = new List<InBrainOfferGoal>();
 		[SerializeField] public List<InBrainOfferGoal> purchaseGoals = new List<InBrainOfferGoal>();
@@ -27,6 +28,9 @@ namespace InBrain
 		[SerializeField] public string attemptedAt;
 		[SerializeField] public string completeBy;
 		[SerializeField] public InBrainCurrencySale campaignCurrencySale;
+		[SerializeField] public InBrainOfferBannerAd bannerAd;
+		[SerializeField] public string status;
+		[SerializeField] public bool isCompleted;
 
 		public DateTime? AttemptedAtDate => ParseIsoDate(attemptedAt);
 		public DateTime? CompleteByDate => ParseIsoDate(completeBy);
@@ -36,6 +40,18 @@ namespace InBrain
 			List<string> requirements, List<string> tags, List<string> categories, InBrainOfferPromotion promotion,
 			List<InBrainOfferGoal> standardGoals, List<InBrainOfferGoal> purchaseGoals, int attributionWindowMinutes,
 			string attemptedAt, string completeBy, InBrainCurrencySale campaignCurrencySale)
+			: this(id, title, reward, rewardString, featuredRank, thumbnailUrl, heroImageUrl, offerDescription,
+				instructions, requirements, tags, categories, null, promotion, standardGoals, purchaseGoals,
+				attributionWindowMinutes, attemptedAt, completeBy, campaignCurrencySale, null, null, false)
+		{
+		}
+
+		public InBrainNativeOffer(int id, string title, float reward, string rewardString, int featuredRank,
+			string thumbnailUrl, string heroImageUrl, List<string> offerDescription, List<string> instructions,
+			List<string> requirements, List<string> tags, List<string> categories, List<string> platforms,
+			InBrainOfferPromotion promotion, List<InBrainOfferGoal> standardGoals, List<InBrainOfferGoal> purchaseGoals,
+			int attributionWindowMinutes, string attemptedAt, string completeBy, InBrainCurrencySale campaignCurrencySale,
+			InBrainOfferBannerAd bannerAd, string status, bool isCompleted)
 		{
 			this.id = id;
 			this.title = title;
@@ -49,6 +65,7 @@ namespace InBrain
 			this.requirements = requirements ?? new List<string>();
 			this.tags = tags ?? new List<string>();
 			this.categories = categories ?? new List<string>();
+			this.platforms = platforms ?? new List<string>();
 			this.promotion = promotion;
 			this.standardGoals = standardGoals ?? new List<InBrainOfferGoal>();
 			this.purchaseGoals = purchaseGoals ?? new List<InBrainOfferGoal>();
@@ -56,6 +73,9 @@ namespace InBrain
 			this.attemptedAt = attemptedAt;
 			this.completeBy = completeBy;
 			this.campaignCurrencySale = campaignCurrencySale;
+			this.bannerAd = bannerAd;
+			this.status = status;
+			this.isCompleted = isCompleted;
 		}
 
 		public static InBrainNativeOffer FromAJO(AndroidJavaObject ajo)
@@ -73,24 +93,29 @@ namespace InBrain
 				ajo.CallAJO("getRequirements").FromJavaList<string>(),
 				ajo.CallAJO("getTags").FromJavaList<string>(),
 				ajo.CallAJO("getCategories").FromJavaList<string>(),
+				ajo.CallAJO("getPlatforms").FromJavaList<string>(),
 				InBrainOfferPromotion.FromAJO(ajo.CallAJO("getPromotion")),
 				ajo.CallAJO("getStandardGoals").FromJavaList(InBrainOfferGoal.FromAJO),
 				ajo.CallAJO("getPurchaseGoals").FromJavaList(InBrainOfferGoal.FromAJO),
 				ajo.Call<int>("getAttributionWindowMinutes"),
 				JniUtils.FromJavaDate(ajo.CallAJO("getAttemptedAt")),
 				JniUtils.FromJavaDate(ajo.CallAJO("getCompleteBy")),
-				FromCurrencySaleAJO(ajo.CallAJO("getCampaignCurrencySale")));
+				FromCurrencySaleAJO(ajo.CallAJO("getCampaignCurrencySale")),
+				InBrainOfferBannerAd.FromAJO(ajo.CallAJO("getBannerAd")),
+				ajo.Call<string>("getStatus"),
+				ajo.Call<bool>("isCompleted"));
 		}
 
 		public override string ToString()
 		{
 			return string.Format(
-				"id: {0}, title: {1}, reward: {2}, rewardString: {3}, featuredRank: {4}, thumbnailUrl: {5}, heroImageUrl: {6}, offerDescription: {7}, instructions: {8}, requirements: {9}, tags: {10}, categories: {11}, promotion: {12}, standardGoals: {13}, purchaseGoals: {14}, attributionWindowMinutes: {15}, attemptedAt: {16}, completeBy: {17}, campaignCurrencySale: {18}",
+				"id: {0}, title: {1}, reward: {2}, rewardString: {3}, featuredRank: {4}, thumbnailUrl: {5}, heroImageUrl: {6}, offerDescription: {7}, instructions: {8}, requirements: {9}, tags: {10}, categories: {11}, platforms: {12}, promotion: {13}, standardGoals: {14}, purchaseGoals: {15}, attributionWindowMinutes: {16}, attemptedAt: {17}, completeBy: {18}, campaignCurrencySale: {19}, bannerAd: {20}, status: {21}, isCompleted: {22}",
 				id, title, reward, rewardString, featuredRank, thumbnailUrl, heroImageUrl,
 				string.Join(";", offerDescription.ToArray()), string.Join(";", instructions.ToArray()),
 				string.Join(";", requirements.ToArray()), string.Join(";", tags.ToArray()),
-				string.Join(";", categories.ToArray()), promotion, standardGoals.Count, purchaseGoals.Count,
-				attributionWindowMinutes, attemptedAt, completeBy, campaignCurrencySale);
+				string.Join(";", categories.ToArray()), string.Join(";", platforms.ToArray()),
+				promotion, standardGoals.Count, purchaseGoals.Count, attributionWindowMinutes, attemptedAt, completeBy,
+				campaignCurrencySale, bannerAd, status, isCompleted);
 		}
 
 		static InBrainCurrencySale FromCurrencySaleAJO(AndroidJavaObject ajo)

@@ -180,9 +180,13 @@ extern "C" {
         }];
     }
     
-    void _ib_GetCurrencySale(ActionStringCallbackDelegate currencySaleReceivedCallback, void *currencySaleReceivedActionPtr,
+    void _ib_GetCurrencySale(int type, ActionStringCallbackDelegate currencySaleReceivedCallback, void *currencySaleReceivedActionPtr,
         ActionVoidCallbackDelegate failedToReceiveCurrencySaleCallback, void *failedToReceiveCurrencySaleActionPtr) {
-        [[InBrain shared] getCurrencySaleWithSuccess:^(InBrainCurrencySale * _Nonnull currencySaleObject) {
+        InBrainCurrencySaleType saleType = (type == InBrainCurrencySaleTypeOffers)
+            ? InBrainCurrencySaleTypeOffers
+            : InBrainCurrencySaleTypeSurveys;
+
+        [[InBrain shared] getCurrencySaleFor:saleType success:^(InBrainCurrencySale * _Nullable currencySaleObject) {
             NSString* currencySale = [InBrainJsonUtils serializeCurrencySale:currencySaleObject];
             currencySaleReceivedCallback(currencySaleReceivedActionPtr, [InBrainUtils createCStringFrom:currencySale]);
         } failed:^(NSError* error) {
